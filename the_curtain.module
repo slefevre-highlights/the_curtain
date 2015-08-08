@@ -1,0 +1,30 @@
+<?php
+/**
+ * @file
+ * .module file for 'the_curtain' module
+ */
+
+/**
+ * Implements hook_query_alter()
+ * Displays the all available queries to the UI
+ * http://drupal.stackexchange.com/a/51338/1441
+ */
+function the_curtain_query_alter(SelectQueryInterface $query) {
+  drupal_set_message(_the_curtain_query_to_sql($query);
+}
+
+function the_curtain_query_to_sql(SelectQueryInterface $query) {
+  $string = (string) $query;
+  $arguments = $query->arguments();
+  if (!empty($arguments) && is_array($arguments)) {
+    foreach ($arguments as $placeholder => &$value) {
+      if (is_string($value)) {
+        $value = "'$value'";
+      }
+    }
+
+    $string = strtr($string, $arguments);
+  }
+
+  return ($string);
+}
