@@ -1,0 +1,5 @@
+name = The Curtain 
+description = Beyond this Gate lies Madness Mortals were not Made to Witness
+core = 7.x
+dependencies[] = bad_judgement
+dependencies[] = devel
