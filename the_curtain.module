@@ -9,14 +9,14 @@
  * Displays the all available queries to the UI
  */
 function the_curtain_query_alter(SelectQueryInterface $query) {
-  drupal_set_message(_the_curtain_query_to_sql($query);
+  drupal_set_message(_the_curtain_query_to_sql($query));
 }
 
 /**
  * Translates a select query interface to an sql string
  * http://drupal.stackexchange.com/a/51338/1441
  */
-function the_curtain_query_to_sql(SelectQueryInterface $query) {
+function _the_curtain_query_to_sql(SelectQueryInterface $query) {
   $string = (string) $query;
   $arguments = $query->arguments();
   if (is_array($arguments)) {
