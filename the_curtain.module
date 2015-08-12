@@ -5,6 +5,20 @@
  */
 
 /**
+ * Implements hook_menu() 
+ */
+function the_curtain_menu() {
+  $menu['admin/config/development/the_curtain'] = array(
+    'title' => 'The Curtain',
+    'description' => 'Nevermind the man behind the curtain.',
+    'page callback' => 'the_curtain_admin_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'the_curtain.admin.inc',
+  );
+  return $menu;
+}
+
+/**
  * Implements hook_query_alter()
  * Displays the all available queries to the UI
  */
