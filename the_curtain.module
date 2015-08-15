@@ -5,7 +5,7 @@
  */
 
 /**
- * Implements hook_menu() 
+ * Implements hook_menu()
  */
 function the_curtain_menu() {
   $menu['admin/config/development/the_curtain'] = array(
@@ -25,6 +25,7 @@ function the_curtain_menu() {
     'file' => 'the_curtain.admin.inc',
     'type' => MENU_LOCAL_TASK,
   );
+  // create an array of similar menu items
   $revealings['aliases'] = array(
     'title'=> t('Aliases'),
     'description' => t('Display the URL Aliases table'),
@@ -45,11 +46,12 @@ function the_curtain_menu() {
     'description' => t('Display the System table (installed and available modules and themes).'),
     'page callback' => '_the_curtain_admin_modules',
   );
+
   foreach ( $revealings as $key => $revealing ) {
     $menu['admin/config/development/the_curtain/' . $key] = array(
       'title' => $revealing['title'],
       'description' => $revealing['description'],
-      'page callback' => $revealing['page callback'], 
+      'page callback' => $revealing['page callback'],
       'access arguments' => array('access administration pages'),
       'file' => 'the_curtain.admin.inc',
       'type' => MENU_LOCAL_TASK,
