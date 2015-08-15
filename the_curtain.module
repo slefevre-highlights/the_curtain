@@ -30,7 +30,7 @@ function the_curtain_menu() {
     'description' => t('Display the URL Aliases table'),
   );
   $revealings['menu_router'] = array(
-    'title'=> t('Menu Router',
+    'title'=> t('Menu Router'),
     'description' => t('Display the Menu Router table'),
   );
   $revleaings['modules'] = array(
