@@ -28,20 +28,23 @@ function the_curtain_menu() {
   $revealings['aliases'] = array(
     'title'=> t('Aliases'),
     'description' => t('Display the URL Aliases table'),
+    'page callback' => 'the_curtain_admin_aliases',
   );
   $revealings['menu_router'] = array(
     'title'=> t('Menu Router'),
     'description' => t('Display the Menu Router table'),
+    'page callback' => 'the_curtain_admin_menu_router',
   );
   $revleaings['modules'] = array(
     'title' => t('Modules'),
     'description' => t('Show module information.'),
+    'page callback' => 'the_curtain_admin_modules',
   );
   foreach ( $revealings as $key => $revealing ) {
     $menu['admin/config/development/the_curtain/' . $key] = array(
       'title' => $revealing['title'],
       'description' => $revealing['description'],
-      'page callback' => 'the_curtain_admin_aliases',
+      'page callback' => $revealing['page callback'], 
       'access arguments' => array('access administration pages'),
       'file' => 'the_curtain.admin.inc',
       'type' => MENU_DEFAULT_LOCAL_TASK,
