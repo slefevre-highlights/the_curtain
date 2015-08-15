@@ -14,14 +14,39 @@ function the_curtain_menu() {
     'page callback' => 'the_curtain_admin_page',
     'access arguments' => array('access administration pages'),
     'file' => 'the_curtain.admin.inc',
+    '#type' => MENU_NORMAL_ITEM,
   );
   $menu['admin/config/development/the_curtain/unveil'] = array(
     'title' => 'Unveilings',
     'description' => 'Show behind-the-scenes data from Drupal.',
     'page callback' => 'the_curtain_admin_unveilings',
+    // this has its own permission since it changes the display on regular pages.
     'access arguments' => array('the curtain unveil'),
     'file' => 'the_curtain.admin.inc',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
   );
+  $revealings['aliases'] = array(
+    'title'=> t('Aliases'),
+    'description' => t('Display the URL Aliases table'),
+  );
+  $revealings['menu_router'] = array(
+    'title'=> t('Menu Router',
+    'description' => t('Display the Menu Router table'),
+  );
+  $revleaings['modules'] = array(
+    'title' => t('Modules'),
+    'description' => t('Show module information.'),
+  );
+  foreach ( $revealings as $key => $revealing ) {
+    $menu['admin/config/development/the_curtain/' . $key] = array(
+      'title' => $revealing['title'],
+      'description' => $revealing['description'],
+      'page callback' => 'the_curtain_admin_aliases',
+      'access arguments' => array('access administration pages'),
+      'file' => 'the_curtain.admin.inc',
+      'type' => MENU_DEFAULT_LOCAL_TASK,
+    );
+  }
   return $menu;
 }
 
