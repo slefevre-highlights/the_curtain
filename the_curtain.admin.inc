@@ -38,3 +38,19 @@ function _the_curtain_admin_theme_table($table) {
   }
   return theme('table', array('header'=>$header,'rows'=>$rows));
 }
+
+function _the_curtain_admin_unveilings_form($form, &$form_state) {
+  $unveilings = array(
+    'the_curtain_show_sql' => t('Show SQL'),
+    'the_curtain_show_forms' => t('Show Form Arrays'),
+    'the_curtain_show_form_states' => t('Show Form State Arrays'),
+  );
+  foreach ( $unveilings as $unveiling => $description) {
+    $form[$unveiling] = array(
+      '#title' => $description,
+      '#type' => 'checkbox',
+      '#default_value' => variable_get($unveiling),
+    );
+  }
+  return system_settings_form($form);
+}
