@@ -15,7 +15,26 @@ function the_curtain_menu() {
     'access arguments' => array('access administration pages'),
     'file' => 'the_curtain.admin.inc',
   );
+  $menu['admin/config/development/the_curtain/unveil'] = array(
+    'title' => 'Unveilings',
+    'description' => 'Show behind-the-scenes data from Drupal.',
+    'page callback' => 'the_curtain_admin_unveilings',
+    'access arguments' => array('the curtain unveil'),
+    'file' => 'the_curtain.admin.inc',
+  );
   return $menu;
+}
+
+/**
+ * Implements hook_permission
+ */
+function the_curtain_permission() {
+  return array(
+    'the curtain unveil' => array(
+      'title'=> t('Unveil the inner workings of Drupal'),
+      'description' => t('Show things such as SQL strings, form data, etc. on pages.'),
+    ),
+  );
 }
 
 /**
