@@ -23,7 +23,7 @@ function the_curtain_menu() {
     // this has its own permission since it changes the display on regular pages.
     'access arguments' => array('the curtain unveil'),
     'file' => 'the_curtain.admin.inc',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'type' => MENU_LOCAL_TASK,
   );
   $revealings['aliases'] = array(
     'title'=> t('Aliases'),
@@ -52,7 +52,7 @@ function the_curtain_menu() {
       'page callback' => $revealing['page callback'], 
       'access arguments' => array('access administration pages'),
       'file' => 'the_curtain.admin.inc',
-      'type' => MENU_DEFAULT_LOCAL_TASK,
+      'type' => MENU_LOCAL_TASK,
     );
   }
   return $menu;
