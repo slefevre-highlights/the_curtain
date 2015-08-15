@@ -35,9 +35,14 @@ function the_curtain_menu() {
     'description' => t('Display the Menu Router table'),
     'page callback' => '_the_curtain_admin_menu_router',
   );
-  $revleaings['modules'] = array(
+  $revealings['modules'] = array(
     'title' => t('Modules'),
     'description' => t('Show module information.'),
+    'page callback' => '_the_curtain_admin_modules',
+  );
+  $revealings['system'] = array(
+    'title' => t('System Table'),
+    'description' => t('Display the System table (installed and available modules and themes).'),
     'page callback' => '_the_curtain_admin_modules',
   );
   foreach ( $revealings as $key => $revealing ) {
