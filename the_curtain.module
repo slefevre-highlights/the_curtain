@@ -28,3 +28,12 @@ function the_curtain_query_alter(SelectQueryInterface $query) {
     drupal_set_message(_the_curtain_query_to_sql($query));
   }
 }
+
+function the_curtain_form_alter($form, &$form_state) {
+  if ( variable_get('the_curtain_show_forms') ) {
+    kpr($form);
+  }
+  if ( variable_get('the_curtain_show_form_states') ) {
+    kpr($form_state);
+  }
+}
