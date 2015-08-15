@@ -6,7 +6,7 @@
 /**
  * Page callback
  */
-function _the_curtain_admin() {
+function _the_curtain_admin_page() {
   return 'blank.';
 }
 
