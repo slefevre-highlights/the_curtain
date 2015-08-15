@@ -23,8 +23,7 @@ function _the_curtain_admin_theme_table($results) {
     if ( ! isset($header[$field]) ) {
       $header[$field] = t($field);
     }
-    $rows[] = $results; 
+    $rows[] = $values; 
   }
-
   return theme('table', array('header'=>$header,'rows'=>$rows));
 }
