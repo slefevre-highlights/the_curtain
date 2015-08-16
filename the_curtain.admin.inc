@@ -35,6 +35,13 @@ function _the_curtain_admin_theme_table($table) {
         }
       }
     }
+    $result = (array)$result;
+    // unserialize serialized arrays or objects
+    foreach ( $result as &$value) {
+      if ( $test = @unserialize($value) ) {
+        $value = kpr($test, TRUE);
+      }
+    }
     $rows[] = (array)$result;
   }
   return theme('table', array('header'=>$header,'rows'=>$rows));
