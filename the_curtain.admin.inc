@@ -47,6 +47,10 @@ function _the_curtain_admin_theme_table($table) {
   return theme('table', array('header'=>$header,'rows'=>$rows));
 }
 
+function _the_curtain_admin_unveilings() {
+  return drupal_get_form(_the_curtain_admin_unveilings_form());
+}
+
 function _the_curtain_admin_unveilings_form($form, &$form_state) {
   $unveilings = array(
     'the_curtain_show_sql' => t('Show SQL'),
