@@ -26,11 +26,13 @@ function the_curtain_menu() {
     'type' => MENU_LOCAL_TASK,
   );
   // create an array of similar menu items
-  $revealings['aliases'] = array(
-    'title'=> t('Aliases'),
-    'description' => t('Display the URL Aliases table'),
-    'page callback' => '_the_curtain_admin_aliases',
-  );
+  if ( module_exists('url_alias') ) {
+    $revealings['aliases'] = array(
+      'title'=> t('Aliases'),
+      'description' => t('Display the URL Aliases table'),
+      'page callback' => '_the_curtain_admin_aliases',
+    );
+  }
   $revealings['menu_router'] = array(
     'title'=> t('Menu Router'),
     'description' => t('Display the Menu Router table'),
