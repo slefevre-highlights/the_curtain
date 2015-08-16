@@ -19,8 +19,8 @@ function _the_curtain_admin_menu_router() {
 function _the_curtain_admin_system() {
   return _the_curtain_admin_theme_table('system');
 }
-function _the_curtain_admin_modules() {
-#  return _the_curtain_admin_theme_table('modules');
+function _the_curtain_admin_cache_bootstrap() {
+  return _the_curtain_admin_theme_table('cache_bootstrap');
 }
 
 function _the_curtain_admin_theme_table($table) {
