@@ -24,7 +24,8 @@ function _the_curtain_admin_modules() {
 }
 
 function _the_curtain_admin_theme_table($table) {
-  $results = db_query("SELECT * FROM {" . $table . "}")->fetchAll();
+  $results = db_select($table, 't')->fields('t')
+    ->execute()->fetchAll();
   foreach ( $results as $result ) {
     if ( ! isset($header) ) {
       $header = array();
