@@ -78,8 +78,10 @@ function the_curtain_permission() {
  * Displays the all available queries to the UI
  */
 function the_curtain_query_alter(SelectQueryInterface $query) {
-  if ( variable_get('the_curtain_show_sql')
-    || ( variable_get('the_curtain_show_efq') && $query->hasTag('the_curtain') )
+  if ( get_class($query) != 'EntityFieldQuery' &&
+    ( variable_get('the_curtain_show_sql')
+      || ( variable_get('the_curtain_show_efq') && $query->hasTag('the_curtain') )
+    )
   ) {
     module_load_include('inc', 'the_curtain', 'the_curtain.utils');
     drupal_set_message(the_curtain_query_to_sql($query));
