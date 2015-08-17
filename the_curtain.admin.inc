@@ -7,7 +7,7 @@
  * Page callback
  */
 function _the_curtain_admin_page() {
-  return 'blank.';
+  return t('This page intentionally left blank.');
 }
 
 function _the_curtain_admin_aliases() {
