@@ -7,11 +7,11 @@
  * Page callback
  */
 function _the_curtain_admin_page() {
-  return t('This page intentionally left blank.');
+  return t('Get your data straight from the horses mouth&mdash; the database.');
 }
 
 function _the_curtain_admin_aliases() {
-  return _the_curtain_admin_theme_table('aliases');
+  return _the_curtain_admin_theme_table('url_alias');
 }
 function _the_curtain_admin_menu_router() {
   return _the_curtain_admin_theme_table('menu_router');
