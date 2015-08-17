@@ -33,25 +33,21 @@ function the_curtain_menu() {
     'title'=> t('Aliases'),
     'description' => t('Display the URL Aliases table'),
     'page callback' => '_the_curtain_admin_aliases',
-    'weight' => $weight++,
   );
   $revealings['menu_router'] = array(
     'title'=> t('Menu Router'),
     'description' => t('Display the Menu Router table'),
     'page callback' => '_the_curtain_admin_menu_router',
-    'weight' => $weight++,
   );
   $revealings['modules'] = array(
     'title' => t('Modules'),
     'description' => t('Show module information.'),
     'page callback' => '_the_curtain_admin_modules',
-    'weight' => $weight++,
   );
   $revealings['system'] = array(
     'title' => t('System Table'),
     'description' => t('Display the System table (installed and available modules and themes).'),
     'page callback' => '_the_curtain_admin_modules',
-    'weight' => $weight++,
   );
 
   foreach ( $revealings as $key => $revealing ) {
@@ -62,7 +58,7 @@ function the_curtain_menu() {
       'access arguments' => array('access administration pages'),
       'file' => 'the_curtain.admin.inc',
       'type' => MENU_LOCAL_TASK,
-      'weight' => $revealing['weight'],
+      'weight' => $weight++,
     );
   }
   return $menu;
