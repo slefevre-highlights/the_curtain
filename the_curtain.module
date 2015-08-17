@@ -86,6 +86,11 @@ function the_curtain_query_alter(SelectQueryInterface $query) {
   }
 }
 
+/**
+ * Implements hook_form_alter()
+ * displays form and form state data
+ * if so directed.
+ */
 function the_curtain_form_alter($form, &$form_state) {
   if ( variable_get('the_curtain_show_forms') ) {
     kpr($form);
