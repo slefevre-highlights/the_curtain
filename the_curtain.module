@@ -77,9 +77,11 @@ function the_curtain_permission() {
  * Displays the all available queries to the UI
  */
 function the_curtain_query_alter(SelectQueryInterface $query) {
-  if ( variable_get('the_curtain_show_sql') ) {
+  if ( variable_get('the_curtain_show_sql')
+    || ( variable_get('the_curtain_show_efq') && $query->hasTag('the_curtain') )
+  ) {
     module_load_include('inc', 'the_curtain', 'the_curtain.utils');
-    drupal_set_message(_the_curtain_query_to_sql($query));
+    drupal_set_message(the_curtain_query_to_sql($query));
   }
 }
 
@@ -89,5 +91,17 @@ function the_curtain_form_alter($form, &$form_state) {
   }
   if ( variable_get('the_curtain_show_form_states') ) {
     kpr($form_state);
+  }
+}
+
+/**
+ * Implements hook_entity_field_query
+ * alters Entity Field Queries to tag them,
+ * so that their quieries are displayed,
+ * if so directed
+ */
+function the_curtain_entity_query_alter($query) {
+  if ( variable_get('the_curtain_show_efq') ) {
+    $query->addTag('the_curtain');
   }
 }
