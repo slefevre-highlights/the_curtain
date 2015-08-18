@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Auxiliary functions 
+ * Auxiliary functions
  */
 
 /**
  * Translates a select query interface to an sql string
  * http://drupal.stackexchange.com/a/51338/1441
  */
-function _the_curtain_query_to_sql(SelectQueryInterface $query) {
+function the_curtain_query_to_sql($query) {
   $string = (string) $query;
   $arguments = $query->arguments();
   if (is_array($arguments)) {

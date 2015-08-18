@@ -7,11 +7,11 @@
  * Page callback
  */
 function _the_curtain_admin_page() {
-  return 'blank.';
+  return t('Get your data straight from the horses mouth&mdash; the database.');
 }
 
 function _the_curtain_admin_aliases() {
-  return _the_curtain_admin_theme_table('aliases');
+  return _the_curtain_admin_theme_table('url_alias');
 }
 function _the_curtain_admin_menu_router() {
   return _the_curtain_admin_theme_table('menu_router');
@@ -56,6 +56,7 @@ function _the_curtain_admin_unveilings_form($form, &$form_state) {
     'the_curtain_show_sql' => t('Show SQL'),
     'the_curtain_show_forms' => t('Show Form Arrays'),
     'the_curtain_show_form_states' => t('Show Form State Arrays'),
+    'the_curtain_show_efq' => t('Show Entity Field Queries SQL'),
   );
   foreach ( $unveilings as $unveiling => $description) {
     $form[$unveiling] = array(
