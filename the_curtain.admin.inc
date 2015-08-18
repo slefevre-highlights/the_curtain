@@ -70,7 +70,8 @@ function _the_curtain_admin_tables_form($form, &$form_state) {
 }
 
 function _the_curtain_admin_show_tables_submit($form, &$form_state) {
-  
+  $form_state['redirect'] = 'admin/config/the_curtain/tables' 
+    . check_plain($form_state['values']['table']); 
 }
 
 function _the_curtain_admin_unveilings_form($form, &$form_state) {
