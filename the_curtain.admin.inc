@@ -47,8 +47,25 @@ function _the_curtain_admin_theme_table($table) {
   return theme('table', array('header'=>$header,'rows'=>$rows));
 }
 
-function _the_curtain_admin_unveilings() {
-  return drupal_get_form(_the_curtain_admin_unveilings_form());
+function _the_curtain_admin_tables_form() {
+  $tables = db_query('SHOW TABLES');
+
+  while ( $table = $tables->fetchAssoc() ) {
+    foreach ( $table as $key => $value ) {
+      $options[$value] = $value;
+    }
+  }
+
+  $form['table'] = array(
+    '#type' => 'select',
+    '#title' => t('Tables'),
+    '#options' => $options,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  return $form;
 }
 
 function _the_curtain_admin_unveilings_form($form, &$form_state) {

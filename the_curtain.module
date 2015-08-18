@@ -28,6 +28,19 @@ function the_curtain_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => $weight++,
   );
+
+  $menu['admin/config/development/the_curtain/tables'] = array(
+    'title' => 'Tables',
+    'description' => 'Show data from arbitrary tables',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('_the_curtain_admin_tables_form'),
+    // this has its own permission since it changes the display on regular pages.
+    'access arguments' => array('the curtain unveil'),
+    'file' => 'the_curtain.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+    'weight' => $weight++,
+  );
+
   // create an array of similar menu items
   if ( module_exists('url_alias') ) {
     $revealings['aliases'] = array(
