@@ -19,12 +19,13 @@ function _the_curtain_admin_menu_router() {
 function _the_curtain_admin_system() {
   return _the_curtain_admin_theme_table('system');
 }
-function _the_curtain_admin_modules() {
-#  return _the_curtain_admin_theme_table('modules');
+function _the_curtain_admin_cache_bootstrap() {
+  return _the_curtain_admin_theme_table('cache_bootstrap');
 }
 
 function _the_curtain_admin_theme_table($table) {
-  $results = db_query("SELECT * FROM {" . $table . "}")->fetchAll();
+  $results = db_select($table, 't')->fields('t')
+    ->execute()->fetchAll();
   foreach ( $results as $result ) {
     if ( ! isset($header) ) {
       $header = array();
@@ -34,9 +35,20 @@ function _the_curtain_admin_theme_table($table) {
         }
       }
     }
+    $result = (array)$result;
+    // unserialize serialized arrays or objects
+    foreach ( $result as &$value) {
+      if ( $test = @unserialize($value) ) {
+        $value = '<pre>' . print_r($test, TRUE) . '</pre>';
+      }
+    }
     $rows[] = (array)$result;
   }
   return theme('table', array('header'=>$header,'rows'=>$rows));
+}
+
+function _the_curtain_admin_unveilings() {
+  return drupal_get_form(_the_curtain_admin_unveilings_form());
 }
 
 function _the_curtain_admin_unveilings_form($form, &$form_state) {
