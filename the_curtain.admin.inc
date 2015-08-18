@@ -47,7 +47,7 @@ function _the_curtain_admin_theme_table($table) {
   return theme('table', array('header'=>$header,'rows'=>$rows));
 }
 
-function _the_curtain_admin_tables_form() {
+function _the_curtain_admin_tables_form($form, &$form_state) {
   $tables = db_query('SHOW TABLES');
 
   while ( $table = $tables->fetchAssoc() ) {
@@ -64,8 +64,13 @@ function _the_curtain_admin_tables_form() {
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Submit'),
+    '#submit' => array('_the_curtain_admin_show_tables_submit'),
   );
   return $form;
+}
+
+function _the_curtain_admin_show_tables_submit($form, &$form_state) {
+  
 }
 
 function _the_curtain_admin_unveilings_form($form, &$form_state) {
