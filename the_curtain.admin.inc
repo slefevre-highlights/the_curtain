@@ -23,8 +23,13 @@ function _the_curtain_admin_cache_bootstrap() {
   return _the_curtain_admin_theme_table('cache_bootstrap');
 }
 
+function _the_curtain_admin_hooks() {
+#  db_query('SELECT
+}
+
 function _the_curtain_admin_theme_table($table) {
   $results = db_select($table, 't')->fields('t')
+    ->addTag('_the_curtain_theme_table')
     ->execute()->fetchAll();
   foreach ( $results as $result ) {
     if ( ! isset($header) ) {
@@ -70,8 +75,8 @@ function _the_curtain_admin_tables_form($form, &$form_state) {
 }
 
 function _the_curtain_admin_show_tables_submit($form, &$form_state) {
-  $form_state['redirect'] = 'admin/config/development/the_curtain/tables/' 
-    . check_plain($form_state['values']['table']); 
+  $form_state['redirect'] = 'admin/config/development/the_curtain/tables/'
+    . check_plain($form_state['values']['table']);
 }
 
 function _the_curtain_admin_unveilings_form($form, &$form_state) {

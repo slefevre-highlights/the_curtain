@@ -44,15 +44,25 @@ function the_curtain_menu() {
   $menu['admin/config/development/the_curtain/tables/%'] = array(
     'title' => 'Table',
     'description' => '',
-    'page callback' => '_the_curtain_admin_theme_table', 
+    'page callback' => '_the_curtain_admin_theme_table',
     'page arguments' => array(5),
-    // this has its own permission since it displays database values 
+    // this has its own permission since it displays database values
     'access arguments' => array('the curtain unveil'),
     'file' => 'the_curtain.admin.inc',
     'type' => MENU_NORMAL_ITEM,
     'weight' => $weight++,
   );
 
+  $menu['admin/config/development/the_curtain/hooks'] = array(
+    'title' => 'Hooks',
+    'description' => 'Show hooks that modules implement',
+    'page callback' => '_the_curtain_hooks',
+    // this has its own permission since it changes the display on regular pages.
+    'access arguments' => array('access administration pages'),
+    'file' => 'the_curtain.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => $weight++,
+  );
   // create an array of similar menu items
   if ( module_exists('url_alias') ) {
     $revealings['aliases'] = array(
@@ -65,11 +75,6 @@ function the_curtain_menu() {
     'title'=> t('Menu Router'),
     'description' => t('Display the Menu Router table'),
     'page callback' => '_the_curtain_admin_menu_router',
-  );
-  $revealings['cache_bootstrap'] = array(
-    'title' => t('Hooks'),
-    'description' => t('Show Hook Information.'),
-    'page callback' => '_the_curtain_admin_cache_bootstrap',
   );
   $revealings['system'] = array(
     'title' => t('System Table'),
