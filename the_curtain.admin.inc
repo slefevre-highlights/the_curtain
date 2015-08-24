@@ -44,7 +44,17 @@ function _the_curtain_admin_theme_table($table) {
     // unserialize serialized arrays or objects
     foreach ( $result as &$value) {
       if ( $test = @unserialize($value) ) {
-        $value = '<pre>' . print_r($test, TRUE) . '</pre>';
+        if ( is_object($test) ) {
+          $test = (array)$test;
+        }
+        $vals = array();
+        foreach ( $test as $key => $val ) {
+          if ( is_object($val) ) {
+            $val = (array)$val;
+          }
+          $vals[] = array($key, $val);
+        }
+        $value = theme('table', array('rows'=>$vals));
       }
     }
     $rows[] = (array)$result;
