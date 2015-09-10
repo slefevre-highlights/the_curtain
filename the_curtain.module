@@ -144,6 +144,6 @@ function the_curtain_form_alter($form, &$form_state) {
  */
 function the_curtain_entity_query_alter($query) {
   if ( variable_get('the_curtain_show_efq') ) {
-    $query->addTag('the_curtain');
+    $query->addTag(__FUNCTION__);
   }
 }
