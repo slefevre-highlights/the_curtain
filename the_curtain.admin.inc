@@ -27,10 +27,15 @@ function _the_curtain_admin_hooks() {
 #  db_query('SELECT
 }
 
-function _the_curtain_admin_theme_table($table) {
-  $results = db_select($table, 't')->fields('t')
-    ->addTag('_the_curtain_theme_table')
-    ->execute()->fetchAll();
+function _the_curtain_admin_theme_table($table, array $orderBy = NULL) {
+
+  $query = db_select($table, 't')->fields('t')
+    ->addTag(__FUNCTION__);
+  foreach ( $orderBy as $field ) {
+    $query->orderBy($field);
+  }
+  $results = $query->execute()->fetchAll();
+
   foreach ( $results as $result ) {
     if ( ! isset($header) ) {
       $header = array();
