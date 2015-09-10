@@ -81,6 +81,11 @@ function the_curtain_menu() {
     'description' => t('Display the System table (installed and available modules and themes).'),
     'page callback' => '_the_curtain_admin_system',
   );
+  $revealings['variable'] = array(
+    'title' => t('Variable Table'),
+    'description' => t('Display the Variable table (Core and Module key/value pairs)'),
+    'page callback' => '_the_curtain_admin_variable',
+  );
 
   foreach ( $revealings as $key => $revealing ) {
     $menu['admin/config/development/the_curtain/' . $key] = array(

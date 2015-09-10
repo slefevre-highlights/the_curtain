@@ -10,6 +10,9 @@ function _the_curtain_admin_page() {
   return t('Get your data straight from the horses mouth&mdash; the database.');
 }
 
+function _the_curtain_admin_variable() {
+  return _the_curtain_admin_theme_table('variable', array('name'));
+}
 function _the_curtain_admin_aliases() {
   return _the_curtain_admin_theme_table('url_alias');
 }
