@@ -40,6 +40,8 @@ function _the_curtain_admin_theme_table($table, array $orderBy = NULL) {
   $results = $query->execute()->fetchAll();
 
   foreach ( $results as $result ) {
+
+    // create the column headers from the field names
     if ( ! isset($header) ) {
       $header = array();
       foreach ( (array)$result as $field => $value ) {
@@ -48,21 +50,29 @@ function _the_curtain_admin_theme_table($table, array $orderBy = NULL) {
         }
       }
     }
+
+    // turn the row into an array for easy drupal formatting.
     $result = (array)$result;
-    // unserialize serialized arrays or objects
+
+    // unserialize serialized values
     foreach ( $result as &$value) {
-      if ( $test = @unserialize($value) ) {
-        if ( is_object($test) ) {
-          $test = (array)$test;
+      if ( $unserialized = @unserialize($value) ) {
+        if ( is_object($unserialized) ) {
+          $unserialized = (array)$unserialized;
         }
-        $vals = array();
-        foreach ( $test as $key => $val ) {
-          if ( is_object($val) ) {
-            $val = (array)$val;
+        elseif ( is_array($unserialized) ) {
+          $vals = array();
+          foreach ( $unserialized as $key => $val ) {
+            if ( is_object($val) ) {
+              $val = (array)$val;
+            }
+            $vals[] = array($key, $val);
           }
-          $vals[] = array($key, $val);
+          $value = theme('table', array('rows'=>$vals));
         }
-        $value = theme('table', array('rows'=>$vals));
+        else {
+          $value = $unserialized;
+        }
       }
     }
     $rows[] = (array)$result;
