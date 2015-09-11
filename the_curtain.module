@@ -134,6 +134,7 @@ function the_curtain_permission() {
  * Displays the all available queries to the UI
  */
 function the_curtain_query_alter(SelectQueryInterface $query) {
+  drupal_set_message(t('Module \'@module\' is kpr\'ing queries.', array('@module'=>'The Curtain')), 'status', FALSE);
   if ( get_class($query) != 'EntityFieldQuery' &&
     ( variable_get('the_curtain_show_sql')
       || ( variable_get('the_curtain_show_efq') && $query->hasTag('the_curtain') )
@@ -150,9 +151,11 @@ function the_curtain_query_alter(SelectQueryInterface $query) {
  */
 function the_curtain_form_alter($form, &$form_state) {
   if ( variable_get('the_curtain_show_forms') ) {
+    drupal_set_message(t('Module \'@module\' is kpr\'ing form arrays.', array('@module'=>'The Curtain')), 'status', FALSE);
     kpr($form);
   }
   if ( variable_get('the_curtain_show_form_states') ) {
+    drupal_set_message(t('Module \'@module\' is kpr\'ing form state arrays.', array('@module'=>'The Curtain')), 'status', FALSE);
     kpr($form_state);
   }
 }
@@ -164,6 +167,7 @@ function the_curtain_form_alter($form, &$form_state) {
  * if so directed
  */
 function the_curtain_entity_query_alter($query) {
+  drupal_set_message(t('Module \'@module\' is kpr\'ing Entity Field Queries.', array('@module'=>'The Curtain')), 'status', FALSE);
   if ( variable_get('the_curtain_show_efq') ) {
     $query->addTag(__FUNCTION__);
   }
