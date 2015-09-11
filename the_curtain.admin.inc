@@ -10,6 +10,9 @@ function _the_curtain_admin_page() {
   return t('Get your data straight from the horses mouth&mdash; the database.');
 }
 
+function _the_curtain_admin_variable() {
+  return _the_curtain_admin_theme_table('variable', array('name'));
+}
 function _the_curtain_admin_aliases() {
   return _the_curtain_admin_theme_table('url_alias');
 }
@@ -23,10 +26,22 @@ function _the_curtain_admin_cache_bootstrap() {
   return _the_curtain_admin_theme_table('cache_bootstrap');
 }
 
-function _the_curtain_admin_theme_table($table) {
-  $results = db_select($table, 't')->fields('t')
-    ->execute()->fetchAll();
+function _the_curtain_admin_hooks() {
+#  db_query('SELECT
+}
+
+function _the_curtain_admin_theme_table($table, array $orderBy = NULL) {
+
+  $query = db_select($table, 't')->fields('t')
+    ->addTag(__FUNCTION__);
+  foreach ( $orderBy as $field ) {
+    $query->orderBy($field);
+  }
+  $results = $query->execute()->fetchAll();
+
   foreach ( $results as $result ) {
+
+    // create the column headers from the field names
     if ( ! isset($header) ) {
       $header = array();
       foreach ( (array)$result as $field => $value ) {
@@ -35,11 +50,29 @@ function _the_curtain_admin_theme_table($table) {
         }
       }
     }
+
+    // turn the row into an array for easy drupal formatting.
     $result = (array)$result;
-    // unserialize serialized arrays or objects
+
+    // unserialize serialized values
     foreach ( $result as &$value) {
-      if ( $test = @unserialize($value) ) {
-        $value = '<pre>' . print_r($test, TRUE) . '</pre>';
+      if ( $unserialized = @unserialize($value) ) {
+        if ( is_object($unserialized) ) {
+          $unserialized = (array)$unserialized;
+        }
+        elseif ( is_array($unserialized) ) {
+          $vals = array();
+          foreach ( $unserialized as $key => $val ) {
+            if ( is_object($val) ) {
+              $val = (array)$val;
+            }
+            $vals[] = array($key, $val);
+          }
+          $value = theme('table', array('rows'=>$vals));
+        }
+        else {
+          $value = $unserialized;
+        }
       }
     }
     $rows[] = (array)$result;
@@ -70,8 +103,8 @@ function _the_curtain_admin_tables_form($form, &$form_state) {
 }
 
 function _the_curtain_admin_show_tables_submit($form, &$form_state) {
-  $form_state['redirect'] = 'admin/config/development/the_curtain/tables/' 
-    . check_plain($form_state['values']['table']); 
+  $form_state['redirect'] = 'admin/config/development/the_curtain/tables/'
+    . check_plain($form_state['values']['table']);
 }
 
 function _the_curtain_admin_unveilings_form($form, &$form_state) {

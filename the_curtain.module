@@ -29,6 +29,18 @@ function the_curtain_menu() {
     'weight' => $weight++,
   );
 
+  $menu['admin/config/development/the_curtain/variables/edit'] = array(
+    'title' => 'Variables',
+    'description' => 'View Drupal variables',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('_the_curtain_admin_variables_form'),
+    // this has its own permission since it changes the display on regular pages.
+    'access arguments' => array('the curtain edit variables'),
+    'file' => 'the_curtain.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => $weight++,
+  );
+
   $menu['admin/config/development/the_curtain/tables'] = array(
     'title' => 'Tables',
     'description' => 'Show data from arbitrary tables',
@@ -44,15 +56,25 @@ function the_curtain_menu() {
   $menu['admin/config/development/the_curtain/tables/%'] = array(
     'title' => 'Table',
     'description' => '',
-    'page callback' => '_the_curtain_admin_theme_table', 
+    'page callback' => '_the_curtain_admin_theme_table',
     'page arguments' => array(5),
-    // this has its own permission since it displays database values 
+    // this has its own permission since it displays database values
     'access arguments' => array('the curtain unveil'),
     'file' => 'the_curtain.admin.inc',
     'type' => MENU_CALLBACK,
     'weight' => $weight++,
   );
 
+  $menu['admin/config/development/the_curtain/hooks'] = array(
+    'title' => 'Hooks',
+    'description' => 'Show hooks that modules implement',
+    'page callback' => '_the_curtain_hooks',
+    // this has its own permission since it changes the display on regular pages.
+    'access arguments' => array('access administration pages'),
+    'file' => 'the_curtain.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => $weight++,
+  );
   // create an array of similar menu items
   if ( module_exists('url_alias') ) {
     $revealings['aliases'] = array(
@@ -66,15 +88,15 @@ function the_curtain_menu() {
     'description' => t('Display the Menu Router table'),
     'page callback' => '_the_curtain_admin_menu_router',
   );
-  $revealings['cache_bootstrap'] = array(
-    'title' => t('Hooks'),
-    'description' => t('Show Hook Information.'),
-    'page callback' => '_the_curtain_admin_cache_bootstrap',
-  );
   $revealings['system'] = array(
     'title' => t('System Table'),
     'description' => t('Display the System table (installed and available modules and themes).'),
     'page callback' => '_the_curtain_admin_system',
+  );
+  $revealings['variable'] = array(
+    'title' => t('Variable Table'),
+    'description' => t('Display the Variable table (Core and Module key/value pairs)'),
+    'page callback' => '_the_curtain_admin_variable',
   );
 
   foreach ( $revealings as $key => $revealing ) {
@@ -100,6 +122,10 @@ function the_curtain_permission() {
       'title'=> t('Unveil the inner workings of Drupal'),
       'description' => t('Show things such as SQL strings, form data, etc. on pages.'),
     ),
+    'the curtain edit' => array(
+      'title'=> t('Edit Variable Values'),
+      'description' => t('Edit the values of variables in the variables table'),
+    ),
   );
 }
 
@@ -109,6 +135,7 @@ function the_curtain_permission() {
  * Or EFQs tagged to be displayed.
  */
 function the_curtain_query_alter(SelectQueryInterface $query) {
+  drupal_set_message(t('Module \'@module\' is kpr\'ing queries.', array('@module'=>'The Curtain')), 'status', FALSE);
   if ( get_class($query) != 'EntityFieldQuery' &&
     ( variable_get('the_curtain_show_sql')
       || ( variable_get('the_curtain_show_efq') && $query->hasTag('the_curtain') )
@@ -125,9 +152,11 @@ function the_curtain_query_alter(SelectQueryInterface $query) {
  */
 function the_curtain_form_alter($form, &$form_state) {
   if ( variable_get('the_curtain_show_forms') ) {
+    drupal_set_message(t('Module \'@module\' is kpr\'ing form arrays.', array('@module'=>'The Curtain')), 'status', FALSE);
     kpr($form);
   }
   if ( variable_get('the_curtain_show_form_states') ) {
+    drupal_set_message(t('Module \'@module\' is kpr\'ing form state arrays.', array('@module'=>'The Curtain')), 'status', FALSE);
     kpr($form_state);
   }
 }
@@ -140,7 +169,8 @@ function the_curtain_form_alter($form, &$form_state) {
  * burma shave
  */
 function the_curtain_entity_query_alter($query) {
+  drupal_set_message(t('Module \'@module\' is kpr\'ing Entity Field Queries.', array('@module'=>'The Curtain')), 'status', FALSE);
   if ( variable_get('the_curtain_show_efq') ) {
-    $query->addTag('the_curtain');
+    $query->addTag(__FUNCTION__);
   }
 }
