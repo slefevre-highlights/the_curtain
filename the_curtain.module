@@ -61,7 +61,7 @@ function the_curtain_menu() {
     // this has its own permission since it displays database values
     'access arguments' => array('the curtain unveil'),
     'file' => 'the_curtain.admin.inc',
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_CALLBACK,
     'weight' => $weight++,
   );
 
@@ -144,6 +144,7 @@ function the_curtain_permission() {
 /**
  * Implements hook_query_alter()
  * Displays the all available queries to the UI
+ * Or EFQs tagged to be displayed.
  */
 function the_curtain_query_alter(SelectQueryInterface $query) {
   drupal_set_message(t('Module \'@module\' is kpr\'ing queries.', array('@module'=>'The Curtain')), 'status', FALSE);
@@ -177,6 +178,7 @@ function the_curtain_form_alter($form, &$form_state) {
  * alters Entity Field Queries to tag them,
  * so that their quieries are displayed,
  * if so directed
+ * burma shave
  */
 function the_curtain_entity_query_alter($query) {
   drupal_set_message(t('Module \'@module\' is kpr\'ing Entity Field Queries.', array('@module'=>'The Curtain')), 'status', FALSE);
