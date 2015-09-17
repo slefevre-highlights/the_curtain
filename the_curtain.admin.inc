@@ -30,6 +30,31 @@ function _the_curtain_admin_hooks() {
 #  db_query('SELECT
 }
 
+function _the_curtain_watchdog_stats() {
+
+  $results = db_query('select type, message, variables, COUNT(*) AS count FROM watchdog w
+    GROUP BY type, message, variables HAVING count > 1 ORDER BY count DESC');
+
+  while ( $result = $results->fetchAssoc() ) {
+    // create the column headers from the field names
+    if ( ! isset($header) ) {
+      $header = array();
+      foreach ( (array)$result as $field => $value ) {
+        if ( ! isset($header[$field]) ) {
+          $header[$field] = $field;
+        }
+      }
+    }
+
+    // turn the row into an array for easy drupal formatting.
+    $rows[] = (array)$result;
+
+    dsm($result);
+  }
+
+  return theme('table', array('header'=>$header,'rows'=>$rows));
+}
+
 function _the_curtain_admin_theme_table($table, array $orderBy = NULL) {
 
   $query = db_select($table, 't')->fields('t')

@@ -75,6 +75,18 @@ function the_curtain_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => $weight++,
   );
+
+  $menu['admin/config/development/the_curtain/watchdog_stats'] = array(
+    'title' => 'Watchdog Stats',
+    'description' => 'Show the most common entries in the Watchdog log',
+    'page callback' => '_the_curtain_watchdog_stats',
+    // this has its own permission since it changes the display on regular pages.
+    'access arguments' => array('access administration pages'),
+    'file' => 'the_curtain.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => $weight++,
+  );
+
   // create an array of similar menu items
   if ( module_exists('url_alias') ) {
     $revealings['aliases'] = array(
