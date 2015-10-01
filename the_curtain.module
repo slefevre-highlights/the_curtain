@@ -190,7 +190,7 @@ function the_curtain_entity_query_alter($query) {
 /**
  * Implements hook_mail_alter
  */
-function the_curtain_mail_alter(&message) {
+function the_curtain_mail_alter(&$message) {
   if ( variable_get('the_curtain_show_mail') ) {
     drupal_set_message(t('Module \'@module\' is kpr\'ing Mail messages.', array('@module'=>'The Curtain')), 'status', FALSE);
     kpr($message);
