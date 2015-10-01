@@ -138,6 +138,7 @@ function _the_curtain_admin_unveilings_form($form, &$form_state) {
     'the_curtain_show_forms' => t('Show Form Arrays'),
     'the_curtain_show_form_states' => t('Show Form State Arrays'),
     'the_curtain_show_efq' => t('Show Entity Field Queries SQL'),
+    'the_curtain_show_mail' => t('Show mail messages'),
   );
   foreach ( $unveilings as $unveiling => $description) {
     $form[$unveiling] = array(
