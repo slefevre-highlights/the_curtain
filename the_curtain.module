@@ -147,12 +147,12 @@ function the_curtain_permission() {
  * Or EFQs tagged to be displayed.
  */
 function the_curtain_query_alter(SelectQueryInterface $query) {
-  drupal_set_message(t('Module \'@module\' is kpr\'ing queries.', array('@module'=>'The Curtain')), 'status', FALSE);
   if ( get_class($query) != 'EntityFieldQuery' &&
     ( variable_get('the_curtain_show_sql')
       || ( variable_get('the_curtain_show_efq') && $query->hasTag('the_curtain') )
     )
   ) {
+    drupal_set_message(t('Module \'@module\' is kpr\'ing queries.', array('@module'=>'The Curtain')), 'status', FALSE);
     module_load_include('inc', 'the_curtain', 'the_curtain.utils');
     drupal_set_message(the_curtain_query_to_sql($query));
   }
@@ -181,8 +181,8 @@ function the_curtain_form_alter($form, &$form_state) {
  * burma shave
  */
 function the_curtain_entity_query_alter($query) {
-  drupal_set_message(t('Module \'@module\' is kpr\'ing Entity Field Queries.', array('@module'=>'The Curtain')), 'status', FALSE);
   if ( variable_get('the_curtain_show_efq') ) {
+    drupal_set_message(t('Module \'@module\' is kpr\'ing Entity Field Queries.', array('@module'=>'The Curtain')), 'status', FALSE);
     $query->addTag(__FUNCTION__);
   }
 }
