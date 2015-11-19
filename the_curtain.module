@@ -68,7 +68,7 @@ function the_curtain_menu() {
   $menu['admin/config/development/the_curtain/hooks'] = array(
     'title' => 'Hooks',
     'description' => 'Show hooks that modules implement',
-    'page callback' => '_the_curtain_hooks',
+    'page callback' => '_the_curtain_admin_hooks',
     // this has its own permission since it changes the display on regular pages.
     'access arguments' => array('access administration pages'),
     'file' => 'the_curtain.admin.inc',
