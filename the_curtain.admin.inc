@@ -48,8 +48,6 @@ function _the_curtain_watchdog_stats() {
 
     // turn the row into an array for easy drupal formatting.
     $rows[] = (array)$result;
-
-    dsm($result);
   }
 
   return theme('table', array('header'=>$header,'rows'=>$rows));
