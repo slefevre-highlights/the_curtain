@@ -33,9 +33,9 @@ function _the_curtain_admin_hooks() {
 function _the_curtain_watchdog_stats() {
 
   $results = db_query('select type, message, variables, COUNT(*) AS count FROM watchdog w
-    GROUP BY type, message, variables HAVING count > 1 ORDER BY count DESC');
+    GROUP BY type, message, variables HAVING count > 4 ORDER BY count DESC');
 
-  while ( $result = $results->fetchAssoc() ) {
+  foreach ( $results as $result ) {
     // create the column headers from the field names
     if ( ! isset($header) ) {
       $header = array();
@@ -44,10 +44,16 @@ function _the_curtain_watchdog_stats() {
           $header[$field] = $field;
         }
       }
+      unset($header['variables']);
     }
 
-    // turn the row into an array for easy drupal formatting.
-    $rows[] = (array)$result;
+
+
+    // t() message and variables
+    $result = (array)$result;
+    $result['message'] = t($result['message'], unserialize($result['variables']));
+    unset($result['variables']);
+    $rows[] = $result;
   }
 
   return theme('table', array('header'=>$header,'rows'=>$rows));
