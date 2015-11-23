@@ -27,6 +27,7 @@ function _the_curtain_admin_cache_bootstrap() {
 }
 
 function _the_curtain_admin_hooks() {
+echo "Under Construction";
 #  db_query('SELECT
 }
 
