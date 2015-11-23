@@ -87,6 +87,28 @@ function _the_curtain_admin_theme_table($table, array $orderBy = NULL) {
            $field_name == 'value'
         && $unserialized = @unserialize($value)
       ) {
+
+/*
+// don't understand right now why this isn't working
+        if ( $value == 's:0:"";' ) {
+          $value = '""';
+        }
+        elseif ( $value == "i:0;") {
+          $value = 0;
+        }
+        elseif ( $value == "a:0:{}") {
+          $value = theme('table', array('rows'=>array(array())));
+        }
+        elseif ( $value == "i:0;") {
+          $value = 0;
+        }
+        elseif ( $value == "b:0;") {
+          $value = "FALSE";
+        }
+        elseif ( $value == "b:1;") {
+          $value = "TRUE";
+*/
+
         if ( is_object($unserialized) ) {
           $unserialized = (array)$unserialized;
         }
