@@ -47,8 +47,6 @@ function _the_curtain_watchdog_stats() {
       unset($header['variables']);
     }
 
-
-
     // t() message and variables
     $result = (array)$result;
     $result['message'] = t($result['message'], unserialize($result['variables']));
@@ -84,8 +82,11 @@ function _the_curtain_admin_theme_table($table, array $orderBy = NULL) {
     $result = (array)$result;
 
     // unserialize serialized values
-    foreach ( $result as &$value) {
-      if ( $unserialized = @unserialize($value) ) {
+    foreach ( $result as $field_name => &$value) {
+      if (
+           $field_name == 'value'
+        && $unserialized = @unserialize($value)
+      ) {
         if ( is_object($unserialized) ) {
           $unserialized = (array)$unserialized;
         }
