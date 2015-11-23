@@ -29,18 +29,6 @@ function the_curtain_menu() {
     'weight' => $weight++,
   );
 
-  $menu['admin/config/development/the_curtain/variables/edit'] = array(
-    'title' => 'Variables',
-    'description' => 'View Drupal variables',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('_the_curtain_admin_variables_form'),
-    // this has its own permission since it changes the display on regular pages.
-    'access arguments' => array('the curtain edit variables'),
-    'file' => 'the_curtain.admin.inc',
-    'type' => MENU_LOCAL_TASK,
-    'weight' => $weight++,
-  );
-
   $menu['admin/config/development/the_curtain/tables'] = array(
     'title' => 'Tables',
     'description' => 'Show data from arbitrary tables',
