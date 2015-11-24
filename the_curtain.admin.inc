@@ -81,51 +81,52 @@ function _the_curtain_admin_theme_table($table, array $orderBy = NULL) {
     // turn the row into an array for easy drupal formatting.
     $result = (array)$result;
 
-    // unserialize serialized values
-    foreach ( $result as $field_name => &$value) {
-      if (
-           $field_name == 'value'
-        && $unserialized = @unserialize($value)
-      ) {
+    foreach ( $result as &$value) {
 
-/*
-// don't understand right now why this isn't working
-        if ( $value == 's:0:"";' ) {
-          $value = '""';
-        }
-        elseif ( $value == "i:0;") {
-          $value = 0;
-        }
-        elseif ( $value == "a:0:{}") {
-          $value = theme('table', array('rows'=>array(array())));
-        }
-        elseif ( $value == "i:0;") {
-          $value = 0;
-        }
-        elseif ( $value == "b:0;") {
-          $value = "FALSE";
-        }
-        elseif ( $value == "b:1;") {
-          $value = "TRUE";
-*/
-
-        if ( is_object($unserialized) ) {
-          $unserialized = (array)$unserialized;
-        }
-        elseif ( is_array($unserialized) ) {
-          $vals = array();
-          foreach ( $unserialized as $key => $val ) {
-            if ( is_object($val) ) {
-              $val = (array)$val;
-            }
-            $vals[] = array($key, $val);
+      // unserialize serialized values
+      if ( $value == 'a:0:{}' ) {
+        // empty array
+        $value = "(empty array)" . theme('table', array('rows'=>array(array("&nbsp;"))));
+      }
+      elseif ( $value == 'b:0;' ) {
+        $value = "(boolean) FALSE";
+      }
+      elseif ( $value == 'b:1;' ) {
+        $value = "(boolean) TRUE";
+      }
+      elseif ( $value == 'N;' ) {
+         // NULL
+        $value = '(literal) NULL';
+      }
+      elseif ( $value == 's:0:"";' ) {
+        // empty string
+        $value = '(empty string) ""';
+      }
+      elseif ( strpos($value, 's:O:') === 0 ) {
+         // object
+        $value = (array)unserialize($value);
+      }
+      elseif ( strpos($value, 'a:') === 0 ) {
+        $vals = array();
+        foreach ( @unserialize($value) as $key => $val ) {
+          if ( is_object($val) ) {
+            $val = (array)$val;
           }
-          $value = theme('table', array('rows'=>$vals));
+          $vals[] = array($key, $val);
         }
-        else {
-          $value = $unserialized;
+        $value = theme('table', array('rows'=>$vals));
+      }
+      elseif (
+           strpos($value, 'i:') === 0
+        || strpos($value, 's:') === 0
+        || strpos($value, 'd:') === 0
+      ) {
+        $value = @unserialize($value);
+        if ( is_string($value) && is_numeric($value) ) {
+          $value = '(string numeral) "' . $value . '"';
         }
       }
+
     }
     $rows[] = (array)$result;
   }
