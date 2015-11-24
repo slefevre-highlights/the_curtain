@@ -82,55 +82,60 @@ function _the_curtain_admin_theme_table($table, array $orderBy = NULL) {
     $result = (array)$result;
 
     foreach ( $result as &$value) {
-
-      // unserialize serialized values
-      if ( $value == 'a:0:{}' ) {
-        // empty array
-        $value = "(empty array)" . theme('table', array('rows'=>array(array("&nbsp;"))));
-      }
-      elseif ( $value == 'b:0;' ) {
-        $value = "(boolean) FALSE";
-      }
-      elseif ( $value == 'b:1;' ) {
-        $value = "(boolean) TRUE";
+      if ( strpos($value, ':') === 1 ) {
+        $value = _the_curtain_test_serialization($value);
       }
       elseif ( $value == 'N;' ) {
-         // NULL
+        // NULL
         $value = '(literal) NULL';
       }
-      elseif ( $value == 's:0:"";' ) {
-        // empty string
-        $value = '(empty string) ""';
-      }
-      elseif ( strpos($value, 's:O:') === 0 ) {
-         // object
-        $value = (array)unserialize($value);
-      }
-      elseif ( strpos($value, 'a:') === 0 ) {
-        $vals = array();
-        foreach ( @unserialize($value) as $key => $val ) {
-          if ( is_object($val) ) {
-            $val = (array)$val;
-          }
-          $vals[] = array($key, $val);
-        }
-        $value = theme('table', array('rows'=>$vals));
-      }
-      elseif (
-           strpos($value, 'i:') === 0
-        || strpos($value, 's:') === 0
-        || strpos($value, 'd:') === 0
-      ) {
-        $value = @unserialize($value);
-        if ( is_string($value) && is_numeric($value) ) {
-          $value = '(string numeral) "' . $value . '"';
-        }
-      }
-
     }
     $rows[] = (array)$result;
   }
   return theme('table', array('header'=>$header,'rows'=>$rows));
+}
+
+function _the_curtain_test_serialization($value) {
+  // unserialize serialized values
+  if ( $value == 'a:0:{}' ) {
+    // empty array
+    $value = "(empty array)" . theme('table', array('rows'=>array(array("&nbsp;"))));
+  }
+  elseif ( $value == 'b:0;' ) {
+    $value = "(boolean) FALSE";
+  }
+  elseif ( $value == 'b:1;' ) {
+    $value = "(boolean) TRUE";
+  }
+  elseif ( $value == 's:0:"";' ) {
+    // empty string
+    $value = '(empty string) ""';
+  }
+  elseif ( strpos($value, 's:O:') === 0 ) {
+     // object
+    $value = (array)unserialize($value);
+  }
+  elseif ( strpos($value, 'a:') === 0 ) {
+    $vals = array();
+    foreach ( @unserialize($value) as $key => $val ) {
+      if ( is_object($val) ) {
+        $val = (array)$val;
+      }
+      $vals[] = array($key, $val);
+    }
+    $value = theme('table', array('rows'=>$vals));
+  }
+  elseif (
+       strpos($value, 'i:') === 0
+    || strpos($value, 's:') === 0
+    || strpos($value, 'd:') === 0
+  ) {
+    $value = @unserialize($value);
+    if ( is_string($value) && is_numeric($value) ) {
+      $value = '(string numeral) "' . $value . '"';
+    }
+  }
+  return $value;
 }
 
 function _the_curtain_admin_tables_form($form, &$form_state) {
