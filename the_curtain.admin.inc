@@ -7,7 +7,7 @@
  * Page callback
  */
 function _the_curtain_admin_page() {
-  return t('Get your data straight from the horses mouth&mdash; the database.');
+  return t('All shall be revealed.');
 }
 
 function _the_curtain_admin_variable() {
