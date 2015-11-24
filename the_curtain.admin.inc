@@ -99,21 +99,21 @@ function _the_curtain_test_serialization($value) {
   // unserialize serialized values
   if ( $value == 'a:0:{}' ) {
     // empty array
-    $value = "(empty array)" . theme('table', array('rows'=>array(array("&nbsp;"))));
+    $value = "(serialized empty array)" . theme('table', array('rows'=>array(array("&nbsp;"))));
   }
   elseif ( $value == 'b:0;' ) {
-    $value = "(boolean) FALSE";
+    $value = "(serialized boolean) FALSE";
   }
   elseif ( $value == 'b:1;' ) {
-    $value = "(boolean) TRUE";
+    $value = "(serialized boolean) TRUE";
   }
   elseif ( $value == 's:0:"";' ) {
     // empty string
-    $value = '(empty string) ""';
+    $value = '(serialized empty string) ""';
   }
   elseif ( strpos($value, 's:O:') === 0 ) {
      // object
-    $value = (array)unserialize($value);
+    $value = '(serialized object)' . (array)unserialize($value);
   }
   elseif ( strpos($value, 'a:') === 0 ) {
     $vals = array();
@@ -123,7 +123,7 @@ function _the_curtain_test_serialization($value) {
       }
       $vals[] = array($key, $val);
     }
-    $value = theme('table', array('rows'=>$vals));
+    $value = '(serialized array)' . theme('table', array('rows'=>$vals));
   }
   elseif (
        strpos($value, 'i:') === 0
@@ -132,7 +132,7 @@ function _the_curtain_test_serialization($value) {
   ) {
     $value = @unserialize($value);
     if ( is_string($value) && is_numeric($value) ) {
-      $value = '(string numeral) "' . $value . '"';
+      $value = '(serialized string numeral) "' . $value . '"';
     }
   }
   return $value;
