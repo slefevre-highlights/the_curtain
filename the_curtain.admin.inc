@@ -51,7 +51,11 @@ function _the_curtain_watchdog_stats() {
     $result = (array)$result;
     $result['message'] = t($result['message'], unserialize($result['variables']));
     unset($result['variables']);
-    $rows[] = $result;
+    $rows[] = array(
+      $result['type'],
+      $result['count'],
+      $result['message'],
+    );
   }
 
   return theme('table', array('header'=>$header,'rows'=>$rows));
