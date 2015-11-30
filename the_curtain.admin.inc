@@ -35,18 +35,9 @@ function _the_curtain_watchdog_stats() {
   $results = db_query('select type, message, variables, COUNT(*) AS count FROM watchdog w
     GROUP BY type, message, variables HAVING count > 4 ORDER BY count DESC');
 
-  foreach ( $results as $result ) {
-    // create the column headers from the field names
-    if ( ! isset($header) ) {
-      $header = array();
-      foreach ( (array)$result as $field => $value ) {
-        if ( ! isset($header[$field]) ) {
-          $header[$field] = $field;
-        }
-      }
-      unset($header['variables']);
-    }
+  $header = array('Type', 'Count', 'Message');
 
+  foreach ( $results as $result ) {
     // t() message and variables
     $result = (array)$result;
     $result['message'] = t($result['message'], unserialize($result['variables']));
@@ -77,7 +68,7 @@ function _the_curtain_admin_theme_table($table, array $orderBy = NULL) {
       $header = array();
       foreach ( (array)$result as $field => $value ) {
         if ( ! isset($header[$field]) ) {
-          $header[$field] = $field;
+          $header[$field] = ucwords($field);
         }
       }
     }
