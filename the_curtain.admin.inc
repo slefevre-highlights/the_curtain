@@ -101,8 +101,8 @@ function _the_curtain_admin_theme_table($table, array $orderBy = NULL) {
 
 function _the_curtain_test_serialization($value) {
   // unserialize serialized values
+
   if ( $value == 'a:0:{}' ) {
-    // empty array
     $value = "(serialized empty array)" . theme('table', array('rows'=>array(array("&nbsp;"))));
   }
   elseif ( $value == 'b:0;' ) {
@@ -112,13 +112,15 @@ function _the_curtain_test_serialization($value) {
     $value = "(serialized boolean) TRUE";
   }
   elseif ( $value == 's:0:"";' ) {
-    // empty string
     $value = '(serialized empty string) ""';
   }
   elseif ( strpos($value, 's:O:') === 0 ) {
      // object
     $value = '(serialized object)' . (array)unserialize($value);
   }
+
+  /*
+  // this is acting problematic
   elseif ( strpos($value, 'a:') === 0 ) {
     $vals = array();
     foreach ( @unserialize($value) as $key => $val ) {
@@ -129,6 +131,9 @@ function _the_curtain_test_serialization($value) {
     }
     $value = '(serialized array)' . theme('table', array('rows'=>$vals));
   }
+
+  */
+
   elseif (
        strpos($value, 'i:') === 0
     || strpos($value, 's:') === 0
@@ -139,6 +144,7 @@ function _the_curtain_test_serialization($value) {
       $value = '(serialized string numeral) "' . $value . '"';
     }
   }
+
   return $value;
 }
 
