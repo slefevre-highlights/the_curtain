@@ -36,6 +36,7 @@ function _the_curtain_watchdog_stats() {
     GROUP BY type, message, variables HAVING count > 4 ORDER BY count DESC');
 
   $header = array('Type', 'Count', 'Message');
+  $rows = array();
 
   foreach ( $results as $result ) {
     // t() message and variables
