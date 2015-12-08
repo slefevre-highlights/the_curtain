@@ -53,13 +53,14 @@ function _the_curtain_watchdog_stats() {
   return theme('table', array('header'=>$header,'rows'=>$rows));
 }
 
-function _the_curtain_admin_theme_table($table, array $orderBy = NULL) {
+function _the_curtain_admin_theme_table($table, array $orderBy = NULL, $limit = 100) {
 
   $query = db_select($table, 't')->fields('t')
     ->addTag(__FUNCTION__);
   foreach ( $orderBy as $field ) {
     $query->orderBy($field);
   }
+  $query->range(0,$limit);
   $results = $query->execute()->fetchAll();
 
   foreach ( $results as $result ) {
