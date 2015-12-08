@@ -37,7 +37,7 @@ function the_curtain_menu() {
     // this has its own permission since it changes the display on regular pages.
     'access arguments' => array('the curtain unveil'),
     'file' => 'the_curtain.admin.inc',
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_LOCAL_TASK,
     'weight' => $weight++,
   );
 
