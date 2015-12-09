@@ -10,20 +10,9 @@ function _the_curtain_admin_page() {
   return t('All shall be revealed.');
 }
 
-function _the_curtain_admin_variable() {
-  return _the_curtain_admin_theme_table('variable', array('name'));
-}
-function _the_curtain_admin_aliases() {
-  return _the_curtain_admin_theme_table('url_alias');
-}
-function _the_curtain_admin_menu_router() {
-  return _the_curtain_admin_theme_table('menu_router');
-}
-function _the_curtain_admin_system() {
-  return _the_curtain_admin_theme_table('system');
-}
-function _the_curtain_admin_cache_bootstrap() {
-  return _the_curtain_admin_theme_table('cache_bootstrap');
+function _the_curtain_admin_display_table($table) {
+  $data = _the_curtain_admin_entable_table($table);
+  return _the_curtain_admin_theme_table($data['header'], $data['rows']);
 }
 
 function _the_curtain_admin_hooks() {
@@ -168,7 +157,6 @@ function _the_curtain_test_serialization($value) {
 }
 
 function _the_curtain_admin_table($table) {
-
   $data = _the_curtain_admin_entable_table($table);
   return _the_curtain_admin_theme_table($data['header'], $data['rows']);
 }
