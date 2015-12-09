@@ -60,7 +60,20 @@ function _the_curtain_admin_theme_table($table, array $orderBy = NULL, $limit = 
   foreach ( $orderBy as $field ) {
     $query->orderBy($field);
   }
-  $query->range(0,$limit);
+
+  // Query options
+
+  if ( isset($_GET['limit']) && is_numeric($_GET['limit']) ) {
+    $limit = $_GET['limit'];
+  }
+
+  $offset = 0;
+  if ( isset($_GET['offset']) && is_numeric($_GET['offset']) ) {
+    $offset = $_GET['offset'];
+  }
+
+  $query->range($offset,$limit);
+
   $results = $query->execute()->fetchAll();
 
   foreach ( $results as $result ) {
