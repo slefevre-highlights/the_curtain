@@ -44,7 +44,7 @@ function the_curtain_menu() {
   $menu['admin/config/development/the_curtain/tables/%'] = array(
     'title' => 'Table',
     'description' => '',
-    'page callback' => '_the_curtain_admin_theme_table',
+    'page callback' => '_the_curtain_admin_table',
     'page arguments' => array(5),
     // this has its own permission since it displays database values
     'access arguments' => array('the curtain unveil'),

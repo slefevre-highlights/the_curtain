@@ -53,7 +53,7 @@ function _the_curtain_watchdog_stats() {
   return theme('table', array('header'=>$header,'rows'=>$rows));
 }
 
-function _the_curtain_admin_theme_table($table, array $orderBy = NULL, $limit = 100) {
+function _the_curtain_admin_entable_table($table, array $orderBy = NULL, $limit = 100) {
 
   $query = db_select($table, 't')->fields('t')
     ->addTag(__FUNCTION__);
@@ -110,6 +110,11 @@ function _the_curtain_admin_theme_table($table, array $orderBy = NULL, $limit = 
     }
     $rows[] = (array)$result;
   }
+
+  return array('header'=>$header,'rows'=>$rows);
+}
+
+function _the_curtain_admin_theme_table($header, $rows) {
   return theme('table', array('header'=>$header,'rows'=>$rows));
 }
 
@@ -160,6 +165,12 @@ function _the_curtain_test_serialization($value) {
   }
 
   return $value;
+}
+
+function _the_curtain_admin_table($table) {
+
+  $data = _the_curtain_admin_entable_table($table);
+  return _the_curtain_admin_theme_table($data['header'], $data['rows']);
 }
 
 function _the_curtain_admin_tables_form($form, &$form_state) {
