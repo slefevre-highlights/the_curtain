@@ -63,6 +63,7 @@ function _the_curtain_admin_theme_table($table, array $orderBy = NULL, $limit = 
 
   // Query options
 
+  // limit & offset
   if ( isset($_GET['limit']) && is_numeric($_GET['limit']) ) {
     $limit = $_GET['limit'];
   }
@@ -73,6 +74,13 @@ function _the_curtain_admin_theme_table($table, array $orderBy = NULL, $limit = 
   }
 
   $query->range($offset,$limit);
+
+  // order by
+  if ( isset($_GET['order_by']) ) {
+     foreach ( explode($_GET['order_by']) as $sort_field ) {
+       $query->orderby($sort_field);
+     }
+  }
 
   $results = $query->execute()->fetchAll();
 
