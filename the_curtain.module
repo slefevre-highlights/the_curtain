@@ -29,6 +29,16 @@ function the_curtain_menu() {
     'weight' => $weight++,
   );
 
+  $menu['admin/config/development/the_curtain/fields'] = array(
+    'title' => 'Fields',
+    'description' => 'Information about fields on the site',
+    'page callback' => '_the_curtain_admin_fields',
+    'access arguments' => array('access administration pages'),
+    // this has its own permission since it changes the display on regular pages.
+    'file' => 'the_curtain.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => $weight++,
+  );
   $menu['admin/config/development/the_curtain/tables'] = array(
     'title' => 'Tables',
     'description' => 'Show data from arbitrary tables',

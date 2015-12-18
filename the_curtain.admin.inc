@@ -184,3 +184,27 @@ function _the_curtain_admin_unveilings_form($form, &$form_state) {
   }
   return system_settings_form($form);
 }
+
+function _the_curtain_admin_fields() {
+
+  $field_map = field_info_field_map();
+  foreach ( $field_map as $field => $info ) {
+    foreach( $info['bundles'] as $bundle => $appearances ) {
+      $bundle_rows = array();
+      foreach ( $appearances as $appearance ) {
+        $bundle_rows[] = array($appearance);
+      }
+      $bundle_info = theme('table', array(
+        'header' => array($bundle),
+        'rows' => $bundle_rows,
+      ));
+    }
+    $rows[] = array($field, $info['type'],$bundle_info );
+  }
+  kpr(field_info_field_map());
+
+  return theme('table',array(
+    'header' => array(t('Name'),t('Type'),t('Bundles')),
+    'rows'=> $rows,
+  ));
+}
