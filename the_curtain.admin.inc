@@ -10,20 +10,9 @@ function _the_curtain_admin_page() {
   return t('All shall be revealed.');
 }
 
-function _the_curtain_admin_variable() {
-  return _the_curtain_admin_theme_table('variable', array('name'));
-}
-function _the_curtain_admin_aliases() {
-  return _the_curtain_admin_theme_table('url_alias');
-}
-function _the_curtain_admin_menu_router() {
-  return _the_curtain_admin_theme_table('menu_router');
-}
-function _the_curtain_admin_system() {
-  return _the_curtain_admin_theme_table('system');
-}
-function _the_curtain_admin_cache_bootstrap() {
-  return _the_curtain_admin_theme_table('cache_bootstrap');
+function _the_curtain_admin_display_table($table) {
+  $data = _the_curtain_admin_entable_table($table);
+  return _the_curtain_admin_theme_table($data['header'], $data['rows']);
 }
 
 function _the_curtain_admin_hooks() {
@@ -53,14 +42,35 @@ function _the_curtain_watchdog_stats() {
   return theme('table', array('header'=>$header,'rows'=>$rows));
 }
 
-function _the_curtain_admin_theme_table($table, array $orderBy = NULL, $limit = 100) {
+function _the_curtain_admin_entable_table($table, array $orderBy = NULL, $limit = 100) {
 
   $query = db_select($table, 't')->fields('t')
     ->addTag(__FUNCTION__);
   foreach ( $orderBy as $field ) {
     $query->orderBy($field);
   }
-  $query->range(0,$limit);
+
+  // Query options
+
+  // limit & offset
+  if ( isset($_GET['limit']) && is_numeric($_GET['limit']) ) {
+    $limit = $_GET['limit'];
+  }
+
+  $offset = 0;
+  if ( isset($_GET['offset']) && is_numeric($_GET['offset']) ) {
+    $offset = $_GET['offset'];
+  }
+
+  $query->range($offset,$limit);
+
+  // order by
+  if ( isset($_GET['order_by']) ) {
+     foreach ( explode($_GET['order_by']) as $sort_field ) {
+       $query->orderby($sort_field);
+     }
+  }
+
   $results = $query->execute()->fetchAll();
 
   foreach ( $results as $result ) {
@@ -89,6 +99,11 @@ function _the_curtain_admin_theme_table($table, array $orderBy = NULL, $limit = 
     }
     $rows[] = (array)$result;
   }
+
+  return array('header'=>$header,'rows'=>$rows);
+}
+
+function _the_curtain_admin_theme_table($header, $rows) {
   return theme('table', array('header'=>$header,'rows'=>$rows));
 }
 
@@ -139,6 +154,11 @@ function _the_curtain_test_serialization($value) {
   }
 
   return $value;
+}
+
+function _the_curtain_admin_table($table) {
+  $data = _the_curtain_admin_entable_table($table);
+  return _the_curtain_admin_theme_table($data['header'], $data['rows']);
 }
 
 function _the_curtain_admin_tables_form($form, &$form_state) {
