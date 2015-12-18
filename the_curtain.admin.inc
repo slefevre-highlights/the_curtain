@@ -221,7 +221,6 @@ function _the_curtain_admin_fields() {
     }
     $rows[] = array($field, $info['type'],$bundle_info );
   }
-  kpr(field_info_field_map());
 
   return theme('table',array(
     'header' => array(t('Name'),t('Type'),t('Bundles')),
