@@ -157,7 +157,12 @@ function the_curtain_query_alter(SelectQueryInterface $query) {
  * Implements hook_form_alter()
  * Displays form and form state data if directed.
  */
-function the_curtain_form_alter($form, &$form_state) {
+function the_curtain_form_alter($form, &$form_state, $form_id) {
+
+  if ( variable_get('the_curtain_show_form_id') ) {
+    drupal_set_message(t('Module \'@module\' is kpr\'ing form ids.', array('@module'=>'The Curtain')), 'status', FALSE);
+    drupal_set_message(t('Form ID is \'@id\'.', array('@id'=>$form_id)));
+  }
   if ( variable_get('the_curtain_show_forms') ) {
     drupal_set_message(t('Module \'@module\' is kpr\'ing form arrays.', array('@module'=>'The Curtain')), 'status', FALSE);
     kpr($form);
@@ -180,4 +185,8 @@ function the_curtain_entity_query_alter($query) {
     drupal_set_message(t('Module \'@module\' is kpr\'ing Entity Field Queries.', array('@module'=>'The Curtain')), 'status', FALSE);
     $query->addTag(__FUNCTION__);
   }
+}
+
+function the_curtain_form_system_modules_alter($form, &$form_state) {
+
 }

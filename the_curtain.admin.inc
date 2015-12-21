@@ -191,6 +191,7 @@ function _the_curtain_admin_show_tables_submit($form, &$form_state) {
 function _the_curtain_admin_unveilings_form($form, &$form_state) {
   $unveilings = array(
     'the_curtain_show_sql' => t('Show SQL'),
+    'the_curtain_show_form_id' => t('Show Form IDs (names)'),
     'the_curtain_show_forms' => t('Show Form Arrays'),
     'the_curtain_show_form_states' => t('Show Form State Arrays'),
     'the_curtain_show_efq' => t('Show Entity Field Queries SQL'),
