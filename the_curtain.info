@@ -3,3 +3,8 @@ description = Beyond this Gate lies Madness Mortals were not Made to Witness
 core = 7.x
 dependencies[] = bad_judgement
 dependencies[] = devel
+
+; TODO
+;
+; - add hook implementations
+; - add entity list
