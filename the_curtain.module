@@ -160,16 +160,26 @@ function the_curtain_query_alter(SelectQueryInterface $query) {
 function the_curtain_form_alter($form, &$form_state, $form_id) {
 
   if ( variable_get('the_curtain_show_form_id') ) {
-    drupal_set_message(t('Module \'@module\' is kpr\'ing form ids.', array('@module'=>'The Curtain')), 'status', FALSE);
+    drupal_set_message(t('Module \'@module\' is dsm\'ing form ids.', array('@module'=>'The Curtain')), 'status', FALSE);
     drupal_set_message(t('Form ID is \'@id\'.', array('@id'=>$form_id)));
   }
   if ( variable_get('the_curtain_show_forms') ) {
-    drupal_set_message(t('Module \'@module\' is kpr\'ing form arrays.', array('@module'=>'The Curtain')), 'status', FALSE);
-    kpr($form);
+    drupal_set_message(t('Module \'@module\' is displaying form arrays.', array('@module'=>'The Curtain')), 'status', FALSE);
+    if ( user_is_logged_in() ) {
+      kpr($form_state);
+    }
+    else {
+      drupal_set_message('<pre>'. print_r($form_state, TRUE) .'</pre>');
+    }
   }
   if ( variable_get('the_curtain_show_form_states') ) {
-    drupal_set_message(t('Module \'@module\' is kpr\'ing form state arrays.', array('@module'=>'The Curtain')), 'status', FALSE);
-    kpr($form_state);
+    drupal_set_message(t('Module \'@module\' is displaying form state_arrays.', array('@module'=>'The Curtain')), 'status', FALSE);
+    if ( user_is_logged_in() ) {
+      kpr($form_state);
+    }
+    else {
+      drupal_set_message('<pre>'. print_r($form_state, TRUE) .'</pre>');
+    }
   }
 }
 
