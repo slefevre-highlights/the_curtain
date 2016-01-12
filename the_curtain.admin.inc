@@ -16,8 +16,24 @@ function _the_curtain_admin_display_table($table) {
 }
 
 function _the_curtain_admin_hooks() {
+
+  // load all module files
+  $module_list = system_list('module_enabled');
+
+  foreach( $module_list as $module_info ) {
+    $module_path = substr($module_info->filename, 0,  strrpos($module_info->filename, "/")  ) ;
+  }
+
   // use `module_implements()`
-  return "Under Construction";
+  $functions = get_defined_functions();
+  $user_funcs = $functions['user'];
+  foreach ( $user_funcs as $func ) {
+    if ( stristr($func, 'hook') ) {
+      $hooks[] = array($func);
+    }
+  }
+
+  return theme('table',array('header'=>array('Hook'),'rows'=>$hooks));
 }
 
 function _the_curtain_watchdog_stats() {
