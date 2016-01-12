@@ -169,7 +169,7 @@ function the_curtain_form_alter($form, &$form_state, $form_id) {
       kpr($form_state);
     }
     else {
-      drupal_set_message('<pre>'. $form_id . ' form array<br/>' . print_r($form_state, TRUE) .'</pre>');
+      drupal_set_message('<pre>'. $form_id . '() $form array:<br/>' . print_r($form_state, TRUE) .'</pre>');
     }
   }
   if ( variable_get('the_curtain_show_form_states') ) {
@@ -178,7 +178,7 @@ function the_curtain_form_alter($form, &$form_state, $form_id) {
       kpr($form_state);
     }
     else {
-      drupal_set_message('<pre> '. $form_id . ' form_state array<br/>' . print_r($form_state, TRUE) .'</pre>');
+      drupal_set_message('<pre> '. $form_id . '() $form_state array:<br/>' . print_r($form_state, TRUE) .'</pre>');
     }
   }
 }
