@@ -226,7 +226,7 @@ function _the_curtain_admin_unveilings_form($form, &$form_state) {
 function _the_curtain_admin_fields() {
 
   $field_map = field_info_field_map();
-  kpr($field_map);
+  ksort($field_map);
   foreach ( $field_map as $field => $info ) {
     foreach( $info['bundles'] as $bundle => $appearances ) {
       $bundle_rows = array();
