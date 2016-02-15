@@ -39,6 +39,16 @@ function the_curtain_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => $weight++,
   );
+  $menu['admin/config/development/the_curtain/views'] = array(
+    'title' => 'Views',
+    'description' => 'Show data from views structure tables',
+    'page callback' => '_the_curtain_admin_views',
+    // this has its own permission since it changes the display on regular pages.
+    'access arguments' => array('the curtain unveil'),
+    'file' => 'the_curtain.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => $weight++,
+  );
   $menu['admin/config/development/the_curtain/tables'] = array(
     'title' => 'Tables',
     'description' => 'Show data from arbitrary tables',

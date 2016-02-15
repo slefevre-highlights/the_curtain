@@ -223,6 +223,10 @@ function _the_curtain_admin_unveilings_form($form, &$form_state) {
   return system_settings_form($form);
 }
 
+function _the_curtain_admin_views() {
+  return _the_curtain_admin_table('views_display');
+}
+
 function _the_curtain_admin_fields() {
 
   $field_map = field_info_field_map();
