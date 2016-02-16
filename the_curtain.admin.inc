@@ -241,18 +241,18 @@ function _the_curtain_admin_fields() {
       }
     }
   }
-  kpr($views_fields);
 
   // get field info from drupal
   $field_map = field_info_field_map();
   ksort($field_map);
   foreach ( $field_map as $field => $info ) {
+    $bundle_info = "";
     foreach( $info['bundles'] as $bundle => $appearances ) {
       $bundle_rows = array();
       foreach ( $appearances as $appearance ) {
         $bundle_rows[] = array($appearance);
       }
-      $bundle_info = theme('table', array(
+      $bundle_info .= theme('table', array(
         'header' => array($bundle),
         'rows' => $bundle_rows,
       ));
@@ -262,14 +262,14 @@ function _the_curtain_admin_fields() {
         $views_rows = array();
         foreach ( $views_fields[$field] as $view_name => $displays ) {
           foreach ( $displays as $display ) {
-            $views_rows[] = "$view_name: $display";
+            $views_rows[] = array("$view_name: $display");
           }
         }
         $views_info = theme('table', array(
           'header' => array('views displays'),
           'rows' => $views_rows,
         ));
-#        $bundle_info .= $views_info;
+        $bundle_info .= $views_info;
       }
     }
     $rows[] = array($field, $info['type'],$bundle_info );
