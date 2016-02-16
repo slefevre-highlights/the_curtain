@@ -229,6 +229,20 @@ function _the_curtain_admin_views() {
 
 function _the_curtain_admin_fields() {
 
+  // find field usage in views
+  $views_fields = array();
+  $results = db_query('SELECT display_options, display_title FROM views_display');
+  foreach ( $results as $result ) {
+    $data = unserialize($result->display_options);
+    if ( isset($data['fields']) ) {
+      foreach ( $data['fields'] as $field => $field_options ) {
+         $views_fields[$field][$result->display_title] = $result->display_title;
+      }
+    }
+  }
+
+  kpr($views_fields);
+
   $field_map = field_info_field_map();
   ksort($field_map);
   foreach ( $field_map as $field => $info ) {
