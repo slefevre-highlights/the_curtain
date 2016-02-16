@@ -231,7 +231,6 @@ function _the_curtain_admin_views() {
   INNER JOIN views_view ON views_display.vid = views_view.vid');
 
   $rows = array();
-  $i = 0;
   foreach ( $results as $result ) {
 
     if ( ! isset($headers) ) {
@@ -243,10 +242,10 @@ function _the_curtain_admin_views() {
     }
 
     // load all the row values ...
-    $rows[++$i] = (array)$result;
+    $rows[$result->vid] = (array)$result;
 
     // ... unset the serialized array ...
-    unset($rows[$i]['display_options']);
+    unset($rows[$result->vid]['display_options']);
 
     // ... and process it as if it were columns
     $data = unserialize($result->display_options);
@@ -258,7 +257,7 @@ function _the_curtain_admin_views() {
         $headers[$key] = $key;
       }
 
-      $rows[$i][$key] = $value;
+      $rows[$result->vid][$key] = $value;
     }
   }
 
