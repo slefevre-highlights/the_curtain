@@ -235,14 +235,18 @@ function _the_curtain_admin_views() {
   foreach ( $results as $result ) {
 
     if ( ! isset($headers) ) {
-      $headers = array_keys((array)$result);
+      foreach ( (array)$result as $field => $value ) {
+        if ( $field != 'display_options' ) {
+          $headers[] = $field;
+        }
+      }
     }
 
     // load all the row values ...
-    $rows[$i] = (array)$result;
+    $rows[++$i] = (array)$result;
 
     // ... unset the serialized array ...
-    unset($rows['display_options']);
+    unset($rows[$i]['display_options']);
 
     // ... and process it as if it were columns
     $data = unserialize($result->display_options);
