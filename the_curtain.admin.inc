@@ -224,7 +224,44 @@ function _the_curtain_admin_unveilings_form($form, &$form_state) {
 }
 
 function _the_curtain_admin_views() {
-  return _the_curtain_admin_table('views_display');
+
+  // find field usage in views
+  $views_fields = array();
+  $results = db_query('SELECT views_display.*, views_view.* FROM views_display
+  INNER JOIN views_view ON views_display.vid = views_view.vid');
+
+  $rows = array();
+  $i = 0;
+  foreach ( $results as $result ) {
+
+    if ( ! isset($headers) ) {
+      $headers = array_keys((array)$result);
+    }
+
+    // load all the row values ...
+    $rows[$i] = (array)$result;
+
+    // ... unset the serialized array ...
+    unset($rows['display_options']);
+
+    // ... and process it as if it were columns
+    $data = unserialize($result->display_options);
+
+    foreach ( $data as $key => $value ) {
+
+      // any display options field could potentially add new keys
+      foreach ( $data as $key => $value ) {
+        $headers[$key] = $key;
+      }
+
+      $rows[$i][$key] = $value;
+    }
+  }
+
+  return theme('table',array(
+    'header' => $headers,
+    'rows'=> $rows,
+  ));
 }
 
 function _the_curtain_admin_fields() {
