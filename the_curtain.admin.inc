@@ -237,13 +237,13 @@ function _the_curtain_admin_fields() {
     $data = unserialize($result->display_options);
     if ( isset($data['fields']) ) {
       foreach ( $data['fields'] as $field => $field_options ) {
-         $views_fields[$field][$result->name][] = $result->display_title;
+         $views_fields[$field][$result->human_name][] = $result->display_title;
       }
     }
   }
-
   kpr($views_fields);
 
+  // get field info from drupal
   $field_map = field_info_field_map();
   ksort($field_map);
   foreach ( $field_map as $field => $info ) {
@@ -256,6 +256,21 @@ function _the_curtain_admin_fields() {
         'header' => array($bundle),
         'rows' => $bundle_rows,
       ));
+
+      // tack on views field information.
+      if ( isset($views_fields[$field])) {
+        $views_rows = array();
+        foreach ( $views_fields[$field] as $view_name => $displays ) {
+          foreach ( $displays as $display ) {
+            $views_rows[] = "$view_name: $display";
+          }
+        }
+        $views_info = theme('table', array(
+          'header' => array('views displays'),
+          'rows' => $views_rows,
+        ));
+#        $bundle_info .= $views_info;
+      }
     }
     $rows[] = array($field, $info['type'],$bundle_info );
   }
