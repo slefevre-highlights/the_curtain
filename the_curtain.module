@@ -28,7 +28,6 @@ function the_curtain_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => $weight++,
   );
-
   $menu['admin/config/development/the_curtain/fields'] = array(
     'title' => 'Fields',
     'description' => 'Information about fields on the site',
