@@ -10,8 +10,8 @@ function _the_curtain_admin_page() {
   return t('All shall be revealed.');
 }
 
-function _the_curtain_admin_display_table($table) {
-  $data = _the_curtain_admin_entable_table($table);
+function _the_curtain_admin_display_table($table, $sort = NULL, $limit = NULL) {
+  $data = _the_curtain_admin_entable_table($table, $sort, $limit);
   return _the_curtain_admin_theme_table($data['header'], $data['rows']);
 }
 
@@ -272,10 +272,10 @@ function _the_curtain_admin_views() {
  */
 function _the_curtain_admin_paths() {
 
-  $output = _the_curtain_admin_display_table('url_alias');
+  $output = _the_curtain_admin_display_table('url_alias', NULL, 10000);
 
   if ( module_exists('path') ) {
-    $output .= _the_curtain_admin_display_table('url_alias');
+    $output .= _the_curtain_admin_display_table('url_alias', NULL, 10000);
   }
 
   // views paths?
