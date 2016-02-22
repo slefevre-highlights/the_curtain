@@ -274,7 +274,7 @@ function _the_curtain_admin_paths() {
 
   $output = _the_curtain_admin_display_table('url_alias');
 
-  if ( module_exists('url_alias') ) {
+  if ( module_exists('path') ) {
     $output .= _the_curtain_admin_display_table('url_alias');
   }
 
