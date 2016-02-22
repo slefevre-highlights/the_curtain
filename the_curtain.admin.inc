@@ -267,6 +267,22 @@ function _the_curtain_admin_views() {
   ));
 }
 
+/**
+ * Show all things that can be a path on the site.
+ */
+function _the_curtain_admin_paths() {
+
+  $output = _the_curtain_admin_display_table('url_alias');
+
+  if ( module_exists('url_alias') ) {
+    $output .= _the_curtain_admin_display_table('url_alias');
+  }
+
+  // views paths?
+
+  return $output;
+}
+
 function _the_curtain_admin_fields() {
 
   // find field usage in views
