@@ -17,6 +17,9 @@ function _the_curtain_admin_display_table($table, $sort = NULL, $limit = NULL) {
 
 function _the_curtain_admin_hooks() {
 
+  // list of hooks
+  // https://api.drupal.org/api/drupal/includes!module.inc/group/hooks/7
+
   // load all module files
   $module_list = system_list('module_enabled');
 
