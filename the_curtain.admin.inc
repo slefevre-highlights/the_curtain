@@ -288,12 +288,13 @@ function _the_curtain_admin_fields() {
   // find field usage in views
   $views_fields = array();
   $results = db_query('SELECT display_options, display_title, name, human_name FROM views_display
-  INNER JOIN views_view ON views_display.vid = views_view.vid');
+    INNER JOIN views_view ON views_display.vid = views_view.vid');
+
   foreach ( $results as $result ) {
     $data = unserialize($result->display_options);
     if ( isset($data['fields']) ) {
       foreach ( $data['fields'] as $field => $field_options ) {
-         $views_fields[$field][$result->human_name][] = $result->display_title;
+        $views_fields[$field][$result->human_name][] = $result->display_title;
       }
     }
   }
