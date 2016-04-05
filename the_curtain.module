@@ -154,6 +154,20 @@ function the_curtain_query_alter(SelectQueryInterface $query) {
 }
 
 /**
+ * Implements hook_init()
+ *
+ * Show GET or POST if selected.
+ */
+function the_curtain_init() {
+  if ( variable_get('the_curtain_show_post') ) {
+    kpr($_POST);
+  }
+  if ( variable_get('the_curtain_show_get') ) {
+    kpr($_GET);
+  }
+}
+
+/**
  * Implements hook_form_alter()
  * Displays form and form state data if directed.
  */
