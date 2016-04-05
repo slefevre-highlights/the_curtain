@@ -28,13 +28,22 @@ function the_curtain_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => $weight++,
   );
-
   $menu['admin/config/development/the_curtain/fields'] = array(
     'title' => 'Fields',
     'description' => 'Information about fields on the site',
     'page callback' => '_the_curtain_admin_fields',
     'access arguments' => array('access administration pages'),
     // this has its own permission since it changes the display on regular pages.
+    'file' => 'the_curtain.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => $weight++,
+  );
+  $menu['admin/config/development/the_curtain/views'] = array(
+    'title' => 'Views',
+    'description' => 'Show data from views structure tables',
+    'page callback' => '_the_curtain_admin_views',
+    // this has its own permission since it changes the display on regular pages.
+    'access arguments' => array('the curtain unveil'),
     'file' => 'the_curtain.admin.inc',
     'type' => MENU_LOCAL_TASK,
     'weight' => $weight++,
@@ -85,17 +94,17 @@ function the_curtain_menu() {
     'weight' => $weight++,
   );
 
-  // create an array of similar menu items
-  if ( module_exists('url_alias') ) {
-    $revealings['aliases'] = array(
-      'title'=> t('Aliases'),
-      'description' => t('Display the URL Aliases table'),
-    );
-  }
-  $revealings['menu_router'] = array(
-    'title'=> t('Menu Router'),
-    'description' => t('Display the Menu Router table'),
+  $menu['admin/config/development/the_curtain/paths'] = array(
+    'title' => 'URL Paths',
+    'description' => t('Anything that can create a URL path on the site.'),
+    'page callback' => '_the_curtain_admin_paths',
+    // this has its own permission since it changes the display on regular pages.
+    'access arguments' => array('access administration pages'),
+    'file' => 'the_curtain.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => $weight++,
   );
+
   $revealings['system'] = array(
     'title' => t('System Table'),
     'description' => t('Display the System table (installed and available modules and themes).'),

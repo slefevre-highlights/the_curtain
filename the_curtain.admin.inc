@@ -10,12 +10,15 @@ function _the_curtain_admin_page() {
   return t('All shall be revealed.');
 }
 
-function _the_curtain_admin_display_table($table) {
-  $data = _the_curtain_admin_entable_table($table);
+function _the_curtain_admin_display_table($table, $sort = NULL, $limit = NULL) {
+  $data = _the_curtain_admin_entable_table($table, $sort, $limit);
   return _the_curtain_admin_theme_table($data['header'], $data['rows']);
 }
 
 function _the_curtain_admin_hooks() {
+
+  // list of hooks
+  // https://api.drupal.org/api/drupal/includes!module.inc/group/hooks/7
 
   // load all module files
   $module_list = system_list('module_enabled');
@@ -225,20 +228,111 @@ function _the_curtain_admin_unveilings_form($form, &$form_state) {
   return system_settings_form($form);
 }
 
+function _the_curtain_admin_views() {
+
+  // find field usage in views
+  $views_fields = array();
+  $results = db_query('SELECT views_display.*, views_view.* FROM views_display
+  INNER JOIN views_view ON views_display.vid = views_view.vid');
+
+  $rows = array();
+  foreach ( $results as $result ) {
+
+    if ( ! isset($headers) ) {
+      foreach ( (array)$result as $field => $value ) {
+        if ( $field != 'display_options' ) {
+          $headers[] = $field;
+        }
+      }
+    }
+
+    // load all the row values ...
+    $rows[$result->vid] = (array)$result;
+
+    // ... unset the serialized array ...
+    unset($rows[$result->vid]['display_options']);
+
+    // ... and process it as if it were columns
+    $data = unserialize($result->display_options);
+
+    foreach ( $data as $key => $value ) {
+
+      // any display options field could potentially add new keys
+      foreach ( $data as $key => $value ) {
+        $headers[$key] = $key;
+      }
+
+      $rows[$result->vid][$key] = $value;
+    }
+  }
+
+  return theme('table',array(
+    'header' => $headers,
+    'rows'=> $rows,
+  ));
+}
+
+/**
+ * Show all things that can be a path on the site.
+ */
+function _the_curtain_admin_paths() {
+
+  $output = _the_curtain_admin_display_table('url_alias', NULL, 10000);
+
+  if ( module_exists('path') ) {
+    $output .= _the_curtain_admin_display_table('url_alias', NULL, 10000);
+  }
+
+  // views paths?
+
+  return $output;
+}
+
 function _the_curtain_admin_fields() {
 
-  $field_map = field_info_field_map();
+  // find field usage in views
+  $views_fields = array();
+  $results = db_query('SELECT display_options, display_title, name, human_name FROM views_display
+    INNER JOIN views_view ON views_display.vid = views_view.vid');
 
+  foreach ( $results as $result ) {
+    $data = unserialize($result->display_options);
+    if ( isset($data['fields']) ) {
+      foreach ( $data['fields'] as $field => $field_options ) {
+        $views_fields[$field][$result->human_name][] = $result->display_title;
+      }
+    }
+  }
+
+  // get field info from drupal
+  $field_map = field_info_field_map();
+  ksort($field_map);
   foreach ( $field_map as $field => $info ) {
+    $bundle_info = "";
     foreach( $info['bundles'] as $bundle => $appearances ) {
       $bundle_rows = array();
       foreach ( $appearances as $appearance ) {
         $bundle_rows[] = array($appearance);
       }
-      $bundle_info = theme('table', array(
+      $bundle_info .= theme('table', array(
         'header' => array($bundle),
         'rows' => $bundle_rows,
       ));
+
+      // tack on views field information.
+      if ( isset($views_fields[$field])) {
+        $views_rows = array();
+        foreach ( $views_fields[$field] as $view_name => $displays ) {
+          foreach ( $displays as $display ) {
+            $views_rows[] = array("$view_name: $display");
+          }
+        }
+        $views_info = theme('table', array(
+          'header' => array('views displays'),
+          'rows' => $views_rows,
+        ));
+        $bundle_info .= $views_info;
+      }
     }
     $rows[] = array($field, $info['type'],$bundle_info );
   }
