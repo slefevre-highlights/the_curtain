@@ -128,8 +128,8 @@ function _the_curtain_admin_theme_table($header, $rows) {
 }
 
 function _the_curtain_test_serialization($value) {
-  // unserialize serialized values
 
+  // unserialize serialized values
   if ( $value == 'a:0:{}' ) {
     $value = "(serialized empty array)" . theme('table', array('rows'=>array(array("&nbsp;"))));
   }
@@ -142,26 +142,12 @@ function _the_curtain_test_serialization($value) {
   elseif ( $value == 's:0:"";' ) {
     $value = '(serialized empty string) ""';
   }
-  elseif ( strpos($value, 's:O:') === 0 ) {
-     // object
-    $value = '(serialized object)' . (array)unserialize($value);
+  elseif (
+      strpos($value, 's:O:') === 0
+    || strpos($value, 'a:') === 0
+  ) {
+    $value = kpr(unserialize($value),1);
   }
-
-  /*
-  // this is acting problematic
-  elseif ( strpos($value, 'a:') === 0 ) {
-    $vals = array();
-    foreach ( @unserialize($value) as $key => $val ) {
-      if ( is_object($val) ) {
-        $val = (array)$val;
-      }
-      $vals[] = array($key, $val);
-    }
-    $value = '(serialized array)' . theme('table', array('rows'=>$vals));
-  }
-
-  */
-
   elseif (
        strpos($value, 'i:') === 0
     || strpos($value, 's:') === 0
