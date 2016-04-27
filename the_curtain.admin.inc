@@ -233,7 +233,7 @@ function _the_curtain_admin_views() {
   // find field usage in views
   $views_fields = array();
   $results = db_query('SELECT views_display.*, views_view.* FROM views_display
-  INNER JOIN views_view ON views_display.vid = views_view.vid');
+    INNER JOIN views_view ON views_display.vid = views_view.vid');
 
   $rows = array();
   foreach ( $results as $result ) {
