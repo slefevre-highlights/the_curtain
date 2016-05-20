@@ -125,9 +125,14 @@ function _the_curtain_admin_entable_table($table, array $orderBy = NULL, $limit 
 
 function _the_curtain_admin_theme_tabular_data($header, $rows) {
   if ( ! count($rows) ) {
-     $output .= "No rows.";
+# TODO: address this
+# theme('table' apparently gives no display when $rows array is mepty
+# I'd actually like to see headers (column names) in that case.
+    return "No rows.";
   }
-  return $output . theme('table', array('header'=>$header,'rows'=>$rows));
+  else {
+    return theme('table', array('header'=>$header,'rows'=>$rows));
+  }
 }
 
 function _the_curtain_test_serialization($value) {
