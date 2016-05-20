@@ -68,7 +68,7 @@ function the_curtain_menu() {
     // this has its own permission since it displays database values
     'access arguments' => array('the curtain unveil'),
     'file' => 'the_curtain.admin.inc',
-    'type' => MENU_CALLBACK,
+    'type' => MENU_LOCAL_TASK,
     'weight' => $weight++,
   );
 
