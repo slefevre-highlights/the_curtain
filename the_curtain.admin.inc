@@ -12,7 +12,7 @@ function _the_curtain_admin_page() {
 
 function _the_curtain_admin_display_table($table, $sort = NULL, $limit = NULL) {
   $data = _the_curtain_admin_entable_table($table, $sort, $limit);
-  return _the_curtain_admin_theme_table($data['header'], $data['rows']);
+  return _the_curtain_admin_theme_tabular_data($data['header'], $data['rows']);
 }
 
 function _the_curtain_admin_hooks() {
@@ -123,8 +123,7 @@ function _the_curtain_admin_entable_table($table, array $orderBy = NULL, $limit 
   return array('header'=>$header,'rows'=>$rows);
 }
 
-function _the_curtain_admin_theme_table($header, $rows) {
-  $output = "";
+function _the_curtain_admin_theme_tabular_data($header, $rows) {
   if ( ! count($rows) ) {
      $output .= "No rows.";
   }
@@ -167,7 +166,7 @@ function _the_curtain_test_serialization($value) {
 
 function _the_curtain_admin_table($table) {
   $data = _the_curtain_admin_entable_table($table);
-  return _the_curtain_admin_theme_table($data['header'], $data['rows']);
+  return _the_curtain_admin_theme_tabular_data($data['header'], $data['rows']);
 }
 
 function _the_curtain_admin_tables_form($form, &$form_state) {
