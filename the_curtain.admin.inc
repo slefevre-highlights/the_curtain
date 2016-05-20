@@ -75,9 +75,9 @@ function _the_curtain_admin_entable_table($table, array $orderBy = NULL, $limit 
   // limit & offset
   if ( isset($_GET['limit']) && is_numeric($_GET['limit']) ) {
     $limit = $_GET['limit'];
+    $offset = 0;
   }
 
-  $offset = 0;
   if ( isset($_GET['offset']) && is_numeric($_GET['offset']) ) {
     $offset = $_GET['offset'];
   }
@@ -142,8 +142,7 @@ function _the_curtain_test_serialization($value) {
   elseif ( $value == 's:0:"";' ) {
     $value = '(serialized empty string) ""';
   }
-  elseif (
-      strpos($value, 's:O:') === 0
+  elseif ( strpos($value, 's:O:') === 0
     || strpos($value, 'a:') === 0
   ) {
     $value = kpr(unserialize($value),1);
