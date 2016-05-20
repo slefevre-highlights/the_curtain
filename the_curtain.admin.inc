@@ -124,7 +124,11 @@ function _the_curtain_admin_entable_table($table, array $orderBy = NULL, $limit 
 }
 
 function _the_curtain_admin_theme_table($header, $rows) {
-  return theme('table', array('header'=>$header,'rows'=>$rows));
+  $output = "";
+  if ( ! count($rows) ) {
+     $output .= "No rows.";
+  }
+  return $output . theme('table', array('header'=>$header,'rows'=>$rows));
 }
 
 function _the_curtain_test_serialization($value) {
@@ -167,6 +171,7 @@ function _the_curtain_admin_table($table) {
 }
 
 function _the_curtain_admin_tables_form($form, &$form_state) {
+
   $tables = db_query('SHOW TABLES');
 
   while ( $table = $tables->fetchAssoc() ) {
@@ -180,11 +185,13 @@ function _the_curtain_admin_tables_form($form, &$form_state) {
     '#title' => t('Tables'),
     '#options' => $options,
   );
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Submit'),
     '#submit' => array('_the_curtain_admin_show_tables_submit'),
   );
+
   return $form;
 }
 
